@@ -50,7 +50,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: testefile_test
+  database: hidden-tundra-10941_test
   pool: 5
   username: diegolopes
   password: 12345
@@ -58,7 +58,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: testefile_production
+  database: hidden-tundra-10941_production
   pool: 5
   username: testefile
   password: <%= ENV['TESTEFILE_DATABASE_PASSWORD'] %>
