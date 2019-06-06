@@ -8,31 +8,37 @@
   google.charts.load("current", {packages:["timeline"]});
   google.charts.setOnLoadCallback(drawChart);
   function drawChart() {
-
-	
-	$.ajax('/resumes/listar_horarios.json',   // request url
-			{            
-				success: function (data) {    // success callback function
-						console.log(data);
-				}
-			});
   
-
-    var container = document.getElementById('timeline');
+     var container = document.getElementById('timeline');
     var chart = new google.visualization.Timeline(container);
     var dataTable = new google.visualization.DataTable();
     dataTable.addColumn({ type: 'string', id: 'Room' });
     dataTable.addColumn({ type: 'string', id: 'Name' });
     dataTable.addColumn({ type: 'date', id: 'Start' });
     dataTable.addColumn({ type: 'date', id: 'End' });
-    dataTable.addRows([
-      [ 'Magnolia Room', 'Beginning JavaScript',       new Date(2019,07,31,11,0,0),   new Date(2019,08,01,03,0,0) ]]);
 
-    var options = {
-      timeline: { colorByRowLabel: true }
-    };
+	
+	$.ajax('/resumes/listar_horarios.json',   // request url
+			{            
+				success: function (data) {    // success callback function
+						//console.log(data.bandas);
+						 for(i=0; i< data.bandas.length; i++){
+							console.log(data.bandas[i]);
+							dataInicio = "2019,07,31,11,0,0";
+							dataFim = "2019,08,01,03,0,0";
+							dataTable.addRows([ [ data.bandas[i][0], data.bandas[i][0], new Date(dataInicio), new Date(dataFim) ]]);
+						 }
+						var options = {
+						  timeline: { colorByRowLabel: true }
+						};
 
-    chart.draw(dataTable, options);
+						chart.draw(dataTable, options);						 
+				}
+			});
+  
+
+
+    
   }
 
 </script>

@@ -53,11 +53,23 @@ class ResumesController < ApplicationController
 			next
 		end		
 		  linha = row[0].split(";")
-		  
+		  p "linha #{linha}"
 		  if linha[PALCO].nil? 
 			bandasSemHorario << linha[BANDA]
 		  else
-			bandas << linha
+			#bandas << linha
+			dataInicio = Time.parse(linha[DIAI]+","+linha[INICO])
+			dataFim = Time.parse(linha[DIAF]+","+linha[FIM])	
+			
+			bandas.push(
+            {
+                :banda => linha[BANDA],
+                :palco => linha[PALCO],
+                :dataInicio => dataInicio,
+                :dataFim => dataFim,
+                :mb => linha[MB]
+            }
+        )
 		  end
 		  
 		end
