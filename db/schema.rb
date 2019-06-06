@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_27_131137) do
+ActiveRecord::Schema.define(version: 2019_05_31_203326) do
 
-  create_table "resumes", force: :cascade do |t|
+  create_table "resumes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "attachment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "attachments"
   end
 
 end

@@ -1,4 +1,16 @@
+require 'csv'
+
 class ResumesController < ApplicationController
+
+	BANDA = 0
+	PALCO = 1
+	DIAI = 2
+	INICO = 3
+	DIAF = 4
+	FIM = 5
+	MB = 6
+	
+
  def index
       @resumes = Resume.all
    end
@@ -24,9 +36,40 @@ class ResumesController < ApplicationController
       redirect_to resumes_path, notice:  "The resume #{@resume.name} has been deleted."
    end
    
+   def timeline
+         
+   end
+   
+   def listar_horarios
+		filename = File.dirname(File.dirname(File.expand_path(__FILE__))) + '/data/bandas.csv'
+		cont = 0
+		bandasSemHorario = []
+		horasDisponiveis = []
+		bandas = []
+		
+		CSV.foreach(filename) do |row|
+		if cont == 0
+			cont = cont +1
+			next
+		end		
+		  linha = row[0].split(";")
+		  
+		  if linha[PALCO].nil? 
+			bandasSemHorario << linha[BANDA]
+		  else
+			bandas << linha
+		  end
+		  
+		end
+
+		
+		render :json => {:bandasSemHorario => bandasSemHorario, :bandas => bandas}	
+   end
+   
    private
       def resume_params
-      params.require(:resume).permit(:name, :attachment)
+      params.require(:resume).permit(:name, attachments: [])
+
    end
    
 end

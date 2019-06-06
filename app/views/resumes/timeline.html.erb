@@ -1,0 +1,40 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<div id="timeline" style="height: 180px;"></div>
+
+
+<script type="text/javascript">
+  google.charts.load("current", {packages:["timeline"]});
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+
+	
+	$.ajax('/resumes/listar_horarios.json',   // request url
+			{            
+				success: function (data) {    // success callback function
+						console.log(data);
+				}
+			});
+  
+
+    var container = document.getElementById('timeline');
+    var chart = new google.visualization.Timeline(container);
+    var dataTable = new google.visualization.DataTable();
+    dataTable.addColumn({ type: 'string', id: 'Room' });
+    dataTable.addColumn({ type: 'string', id: 'Name' });
+    dataTable.addColumn({ type: 'date', id: 'Start' });
+    dataTable.addColumn({ type: 'date', id: 'End' });
+    dataTable.addRows([
+      [ 'Magnolia Room', 'Beginning JavaScript',       new Date(2019,07,31,11,0,0),   new Date(2019,08,01,03,0,0) ]]);
+
+    var options = {
+      timeline: { colorByRowLabel: true }
+    };
+
+    chart.draw(dataTable, options);
+  }
+
+</script>
+	   
+	   
