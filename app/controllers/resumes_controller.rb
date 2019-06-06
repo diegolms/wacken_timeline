@@ -65,8 +65,8 @@ class ResumesController < ApplicationController
             {
                 :banda => linha[BANDA],
                 :palco => linha[PALCO],
-                :dataInicio => dataInicio.strftime("%Y,%m,%d,%H,%M"),
-                :dataFim => dataFim.strftime("%Y,%m,%d,%H,%M"),
+                :dataInicio => dataInicio,
+                :dataFim => dataFim,
                 :mb => linha[MB]
             }
         )
