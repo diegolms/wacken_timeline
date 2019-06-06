@@ -21,18 +21,21 @@
 	$.ajax('/resumes/listar_horarios.json',   // request url
 			{            
 				success: function (data) {    // success callback function
-						//console.log(data.bandas);
+						 console.log(data.bandas.length);
+						 linha = [];
+
 						 for(i=0; i< data.bandas.length; i++){
-							console.log(data.bandas[i]);
-							dataInicio = "2019,07,31,11,0,0";
-							dataFim = "2019,08,01,03,0,0";
-							dataTable.addRows([ [ data.bandas[i][0], data.bandas[i][0], new Date(dataInicio), new Date(dataFim) ]]);
+							//console.log(data.bandas[i]);
+							//dataTable.addRows([ [ data.bandas[i].palco, data.bandas[i].banda, new Date(), new Date() ]]);
+							linha.push([data.bandas[i].palco, data.bandas[i].banda, data.bandas[i].dataInicio, data.bandas[i].dataFim]);
 						 }
+						 console.log(linha);
+						dataTable.addRows(linha); 
 						var options = {
 						  timeline: { colorByRowLabel: true }
 						};
 
-						chart.draw(dataTable, options);						 
+						//chart.draw(dataTable, options);						 
 				}
 			});
   

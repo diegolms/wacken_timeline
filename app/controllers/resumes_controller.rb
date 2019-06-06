@@ -53,20 +53,20 @@ class ResumesController < ApplicationController
 			next
 		end		
 		  linha = row[0].split(";")
-		  p "linha #{linha}"
 		  if linha[PALCO].nil? 
 			bandasSemHorario << linha[BANDA]
 		  else
 			#bandas << linha
-			dataInicio = Time.parse(linha[DIAI]+","+linha[INICO])
-			dataFim = Time.parse(linha[DIAF]+","+linha[FIM])	
+			dataInicio = DateTime.parse(linha[DIAI]+","+linha[INICO])
+			dataFim = DateTime.parse(linha[DIAF]+","+linha[FIM])
+			dataFim = dataFim <  dataInicio ? dataFim + 1.day : dataFim
 			
 			bandas.push(
             {
                 :banda => linha[BANDA],
                 :palco => linha[PALCO],
-                :dataInicio => dataInicio,
-                :dataFim => dataFim,
+                :dataInicio => dataInicio.strftime("%Y,%m,%d,%H,%M"),
+                :dataFim => dataFim.strftime("%Y,%m,%d,%H,%M"),
                 :mb => linha[MB]
             }
         )
