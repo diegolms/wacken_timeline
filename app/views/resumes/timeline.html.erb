@@ -12,6 +12,7 @@
      var container = document.getElementById('timeline');
     var chart = new google.visualization.Timeline(container);
     var dataTable = new google.visualization.DataTable();
+		dataTable.addColumn({ type: 'number', id: 'ID' });
     dataTable.addColumn({ type: 'string', id: 'Room' });
     dataTable.addColumn({ type: 'string', id: 'Name' });
     dataTable.addColumn({ type: 'date', id: 'Start' });
@@ -23,23 +24,41 @@
 				success: function (data) {    // success callback function
 						 //console.log(data.bandas.length);
 						 linha = [];
+						 var colors = []
 
 						 for(i=0; i< data.bandas.length; i++){
 							//console.log(data.bandas[i]);
 							//dataTable.addRows([ [ data.bandas[i].palco, data.bandas[i].banda, new Date(), new Date() ]]);
 							//console.log(new Date(data.bandas[i].dataInicio));
-							linha.push([data.bandas[i].palco, data.bandas[i].banda, new Date(data.bandas[i].dataInicio), new Date(data.bandas[i].dataFim) ]);
+							linha.push([1,data.bandas[i].palco, data.bandas[i].banda, new Date(data.bandas[i].dataInicio), new Date(data.bandas[i].dataFim) ]);
+
+							//console.log(data.bandas[i].dia);
+
+							if(data.bandas[i].dia == 3){
+								colors.push('red')
+							}else if(data.bandas[i].dia == 4){
+								colors.push('blue')
+							}else if(data.bandas[i].dia == 5){
+								colors.push('yellow')
+							}else if(data.bandas[i].dia == 6){
+								colors.push('green')
+							}
+							
 						 }
-						 console.log(linha);
+
 						dataTable.addRows(linha); 
 						
 						var options = {
 						  timeline: { colorByRowLabel: true },
-							height: 700
+							height: 700,
+							colors: colors
 							
 						};
 
-						chart.draw(dataTable, options);						 
+						
+						view = new google.visualization.DataView(dataTable);
+            view.hideColumns([0]);
+						chart.draw(view, options);						 
 				}
 			});
   
