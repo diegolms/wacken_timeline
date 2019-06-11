@@ -57,31 +57,59 @@ class ResumesController < ApplicationController
 			bandasSemHorario << linha[BANDA]
 		  else
          #bandas << linha
-         dia = DateTime.parse(linha[DIAI]+","+linha[INICO])
-			dataInicio = DateTime.parse("2019-08-01"+","+linha[INICO])
-			dataFim = DateTime.parse("2019-08-01"+","+linha[FIM])
+         dia = DateTime.parse(linha[DIAI]+","+linha[INICO]) 
+			dataInicio = DateTime.parse("2019-08-01"+","+linha[INICO]) + 3.hour
+			dataFim = DateTime.parse("2019-08-01"+","+linha[FIM]) + 3.hour
          dataFim = dataFim <  dataInicio ? dataFim + 1.day : dataFim
-         
-         p " #{linha[BANDA]} - #{dataInicio} -  #{dataFim} - #{dia.wday} "
+
+			case linha[PALCO]
+
+				when 'FASTER'
+					 id_palco = 0				
+				when 'HARDER'
+					 id_palco = 1			
+				when 'LOUDER'
+					 id_palco = 2		
+				when 'HISTORY STAGE'
+					 id_palco = 3
+				when 'W:E:T STAGE'
+					 id_palco = 4					 
+				when 'HEADBANGERS STAGE'
+					 id_palco = 5
+				when 'WASTELAND STAGE'
+					 id_palco = 6
+				when 'WACKINGER STAGE'
+					 id_palco = 7
+				when 'BEERGARDEN STAGE'
+					 id_palco = 8		
+				when 'WELCOME'
+					 id_palco = 9	
+				when 'METAL CHURCH'
+					 id_palco = 8	
+	
+					 
+			end
+			
 
 			bandas.push(
             {
                 :banda => linha[BANDA],
                 :palco => linha[PALCO],
+				:id_palco => id_palco.to_s,
                 :dataInicio => dataInicio,
                 :dataFim => dataFim,
                 :mb => linha[MB],
                 :dia => dia.wday
             }
         )
-
-        
+		        
 		  end
 		  
 		end
-
 		
-		render :json => {:bandasSemHorario => bandasSemHorario, :bandas => bandas}	
+		p bandas.sort_by { |hsh| hsh[:id_palco] }
+		
+		render :json => {:bandasSemHorario => bandasSemHorario, :bandas => bandas.sort_by { |hsh| hsh[:id_palco] }}	
    end
    
    private
